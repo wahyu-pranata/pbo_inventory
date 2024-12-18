@@ -19,9 +19,9 @@ import models.Item;
  * @author Wahyu Pranata
  */
 public class ItemController {
-    Connection conn = (new Conn()).getConnection();
-    String table = "items";
-    public List<Item> getItems()
+    static Connection conn = (new Conn()).getConnection();
+    static String table = "items";
+    public static List<Item> getItems()
     {
         List<Item> items = new ArrayList<Item>();
         try {
@@ -46,7 +46,7 @@ public class ItemController {
         return items;
     }
     
-    public boolean insertItem(String name, int stock, String unit, String type)
+    public static boolean insertItem(String name, int stock, String unit, String type)
     {
         boolean isSuccess = false;
         try {
