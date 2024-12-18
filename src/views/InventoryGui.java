@@ -7,6 +7,7 @@ package views;
 import models.Item;
 import controllers.ItemController;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
 import java.util.List;
 import java.util.Iterator;
 /**
@@ -40,8 +41,7 @@ public class InventoryGui extends javax.swing.JFrame {
         model.fireTableDataChanged();
         
         try {
-            ItemController itemController = new ItemController();
-            List items = itemController.getItems();
+            List items = ItemController.getItems();
             
             for (Iterator it = items.iterator(); it.hasNext();) {
                 Item item = (Item) it.next();
@@ -227,7 +227,22 @@ public class InventoryGui extends javax.swing.JFrame {
     }//GEN-LAST:event_tableMouseClicked
 
     private void addButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addButtonMouseClicked
-       isFieldEmpty();
+       try {
+            if(isFieldEmpty()) {
+                JOptionPane.showMessageDialog(null, "Harap isi seluruh field", "Peringatan", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            boolean isInsertSuccess = ItemController.insertItem(nameField.getText(), Integer.valueOf(stockField.getText()), unitField.getText(), typeField.getText());
+            if(isInsertSuccess) {
+                JOptionPane.showMessageDialog(null, "Berhasil menambah data", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+                this.loadData();
+                return;
+            }
+            JOptionPane.showMessageDialog(null, "Gagal menambah data", "Informasi", JOptionPane.INFORMATION_MESSAGE);
+            return;
+       } catch(Exception e) {
+           System.out.println("Something went wrong\n" + e.getMessage());
+       }
     }//GEN-LAST:event_addButtonMouseClicked
 
     /**
